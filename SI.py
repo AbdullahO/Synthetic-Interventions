@@ -99,7 +99,6 @@ class SI(object):
 			ivs = np.sort(pd.unique(self.post_df.intervention))
 		else:
 			ivs = set(np.sort(pd.unique(self.post_df.intervention))).intersection(interventions)
-			print(ivs)
 		
 		# get all units (using pre-intervention data)
 		units = list(np.sort(pd.unique(self.pre_df.unit)))
@@ -121,7 +120,6 @@ class SI(object):
 		std_data = np.array([])
 		donors_dict = {}
 		for iv in ivs:
-			print(iv)
 			donors_dict[iv] ={}
 			# get potential donors (units who receive intervention 'iv') from POST-intervention data
 			unit_ids = pd.unique(self.post_df[(self.post_df.intervention==iv) &(self.post_df.donor==1) ]['unit'])
@@ -153,7 +151,7 @@ class SI(object):
 					# append data
 					yh_data = np.vstack([yh_data, yh]) if yh_data.size else yh
 					std_data = np.vstack([std_data, std]) if std_data.size else std
-					idx_data = np.vstack([idx_data, [unit, iv, metric]]) if idx_data.size else np.array([unit, iv, metric])
+					idx_data = np.vstack([idx_data, [unit, iv, metric]]) if idx_data.size else np.array([unit, iv, metric], dtype = object)
 					
 		pre_cols = list(self.pre_df.drop(columns=columns).columns)
 		post_cols = list(self.post_df.drop(columns=columns).columns)
