@@ -151,7 +151,7 @@ class SI(object):
 					# append data
 					yh_data = np.vstack([yh_data, yh]) if yh_data.size else yh
 					std_data = np.vstack([std_data, std]) if std_data.size else std
-					idx_data = np.vstack([idx_data, [unit, iv, metric]]) if idx_data.size else np.array([unit, iv, metric], dtype = object)
+					idx_data = np.vstack([idx_data, np.array([unit, iv, metric],dtype = object)]) if idx_data.size else np.array([unit, iv, metric], dtype = object)
 					
 		pre_cols = list(self.pre_df.drop(columns=columns).columns)
 		post_cols = list(self.post_df.drop(columns=columns).columns)
