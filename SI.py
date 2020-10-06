@@ -87,7 +87,8 @@ class SI(object):
 		# sort dataframes by (unit, intervention)
 		self.pre_df = pre_df.sort_values(by=columns[:3])
 		self.post_df = post_df.sort_values(by=columns[:3])
-		# Add donors column
+		
+		# Add donors column, and filter non-donors
 		if 'donor' not in self.pre_df.columns: self.pre_df.insert(0,'donor',1)
 		self.pre_df.loc[pre_df.unit.isin(non_donor_list),'donor'] = 0 
 		if 'donor' not in self.post_df.columns: self.post_df.insert(0,'donor',1)
@@ -125,6 +126,11 @@ class SI(object):
 			unit_ids = pd.unique(self.post_df[(self.post_df.intervention==iv) &(self.post_df.donor==1) ]['unit'])
 
 			for unit in units: 
+				#filter donors who received a differnt pre intervention
+				pre_iv =  self.pre_df[self.pre_df.unit==unit]['intervention'].values[0]
+				units_same_pre_int = pd.unique(self.pre_df[(self.pre_df.intervention==pre_iv) ]['unit'])
+				unit_ids = list(set(pd.unique(self.post_df[(self.post_df.intervention==iv) &(self.post_df.donor==1) ]['unit'])).intersection(units_same_pre_int))
+				unit_ids = np.array(unit_ids)
 				donors_dict[iv][unit] = {}
 				# exclude (target) unit from being included in (donor) unit_ids
 				donor_units = unit_ids[unit_ids != unit] if unit in unit_ids else unit_ids

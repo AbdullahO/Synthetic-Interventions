@@ -64,6 +64,7 @@ def hsvt_ols(X1, X2, y1, t=0.99, metric_i = 0,T0 = None, center=True, rcond=1e-1
 	for i in range(X2.shape[0]):
 		cov_sq[i] =  np.sqrt(1+np.dot(X2[i,:],np.dot(cov_beta,X2[i,:])))
 	cov_sq = np.concatenate([np.zeros(T0), cov_sq]) if include_pre else cov_sq
+	
 	if return_coefficients: return yh, beta, cov_sq
 	return yh 
 
