@@ -37,7 +37,7 @@ def approximate_rank2(X, t = 0):
     b = X.shape[1]/X.shape[0]
     omega = 0.56*b**3-0.95*b**2+1.43+1.82*b
     thre = omega*np.median(s)
-    rank = len(s[s>thre])
+    rank = max(len(s[s>thre]), 1)
     return rank
 
 # hard singular value thresholding (hsvt)
